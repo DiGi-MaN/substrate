@@ -370,7 +370,7 @@ pub enum RuntimeMetadata {
 	/// Version 11 for runtime metadata. No longer used.
 	V11(RuntimeMetadataDeprecated),
 	/// Version 12 for runtime metadata. No longer used.
-	V12(RuntimeMetadataDeprecated),
+	V12(RuntimeMetadataV12),
 	/// Version 13 for runtime metadata.
 	V13(RuntimeMetadataV13),
 }
@@ -392,6 +392,17 @@ impl Decode for RuntimeMetadataDeprecated {
 		Err("Decoding is not supported".into())
 	}
 }
+
+/// The metadata of a runtime.
+#[derive(Eq, Encode, PartialEq, RuntimeDebug)]
+#[cfg_attr(feature = "std", derive(Decode, Serialize))]
+pub struct RuntimeMetadataV12 {
+	/// Metadata of all the modules.
+	pub modules: DecodeDifferentArray<ModuleMetadata>,
+	/// Metadata of the extrinsic.
+	pub extrinsic: ExtrinsicMetadata,
+}
+
 
 /// The metadata of a runtime.
 #[derive(Eq, Encode, PartialEq, RuntimeDebug)]
